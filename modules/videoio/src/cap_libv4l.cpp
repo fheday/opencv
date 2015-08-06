@@ -1442,6 +1442,7 @@ static double icvGetPropertyCAM_V4L (CvCaptureCAM_V4L* capture,
     /* all went well */
     is_v4l2_device = 1;
   } else {
+    throw "VIDEOIO ERROR: V4L2: Unable to get property";
     fprintf(stderr, "VIDEOIO ERROR: V4L2: Unable to get property %s(%u) - %s\n", name, capture->control.id, strerror(errno));
   }
 
@@ -1666,6 +1667,7 @@ static int icvSetControl (CvCaptureCAM_V4L* capture, int property_id, double val
   if(v4l2_ioctl(capture->deviceHandle, VIDIOC_G_CTRL, &capture->control) == 0) {
     /* all went well */
   } else {
+    throw "VIDEOIO ERROR: V4L2: Unable to get property";
     fprintf(stderr, "VIDEOIO ERROR: V4L2: Unable to get property %s(%u) - %s\n", name, capture->control.id, strerror(errno));
   }
 
