@@ -926,7 +926,6 @@ std::vector<int> VideoCapture::getSystemDevicesNumbers()
 //            capture = cvCreateCameraCapture_OpenNI(index);
 //            if (capture)
 //                return capture;
-        printf("hey");
             break;
 #endif
 
