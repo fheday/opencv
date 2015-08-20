@@ -751,27 +751,191 @@ double VideoCapture::get(int propId) const
 std::vector<int> VideoCapture::getSystemDevicesNumbers()
 {
     std::vector<int> result;
-        int  domains[] =
+    int  domains[] =
     {
-        CV_CAP_ANY,
-#ifdef HAVE_GPHOTO2
-        CV_CAP_GPHOTO2,
+#ifdef HAVE_MSMF
+        CV_CAP_MSMF,
 #endif
-        -1, -1
+#if 1
+        CV_CAP_IEEE1394,   // identical to CV_CAP_DC1394
+#endif
+#ifdef HAVE_TYZX
+        CV_CAP_STEREO,
+#endif
+#ifdef HAVE_PVAPI
+        CV_CAP_PVAPI,
+#endif
+#if 1
+        CV_CAP_VFW,        // identical to CV_CAP_V4L
+#endif
+#ifdef HAVE_MIL
+        CV_CAP_MIL,
+#endif
+#if defined(HAVE_QUICKTIME) || defined(HAVE_QTKIT)
+        CV_CAP_QT,
+#endif
+#ifdef HAVE_UNICAP
+        CV_CAP_UNICAP,
+#endif
+#ifdef HAVE_OPENNI
+        CV_CAP_OPENNI,
+#endif
+#ifdef HAVE_OPENNI2
+        CV_CAP_OPENNI2,
+#endif
+#ifdef HAVE_XIMEA
+        CV_CAP_XIAPI,
+#endif
+#ifdef HAVE_AVFOUNDATION
+        CV_CAP_AVFOUNDATION,
+#endif
+#ifdef HAVE_GIGE_API
+        CV_CAP_GIGANETIX,
+#endif
+#ifdef HAVE_INTELPERC
+        CV_CAP_INTELPERC,
+#endif
+        -1
     };
 
+#if defined(HAVE_MSMF)         || \
+    defined(HAVE_TYZX)         || \
+    defined(HAVE_VFW)          || \
+    defined(HAVE_LIBV4L)       || \
+    defined(HAVE_CAMV4L)       || \
+    defined(HAVE_CAMV4L2)      || \
+    defined(HAVE_VIDEOIO)      || \
+    defined(HAVE_GSTREAMER)    || \
+    defined(HAVE_DC1394_2)     || \
+    defined(HAVE_DC1394)       || \
+    defined(HAVE_CMU1394)      || \
+    defined(HAVE_MIL)          || \
+    defined(HAVE_QUICKTIME)    || \
+    defined(HAVE_QTKIT)        || \
+    defined(HAVE_UNICAP)       || \
+    defined(HAVE_PVAPI)        || \
+    defined(HAVE_OPENNI)       || \
+    defined(HAVE_OPENNI2)      || \
+    defined(HAVE_XIMEA)        || \
+    defined(HAVE_AVFOUNDATION) || \
+    defined(HAVE_GIGE_API) || \
+    defined(HAVE_INTELPERC)    || \
+    (0)
+#endif
+    bool done = false;
     // try every possibly installed camera API
     for (int i = 0; domains[i] >= 0; i++)
     {
+        if (done) continue;
         switch (domains[i])
         {
-#ifdef HAVE_GPHOTO2
-        case CV_CAP_GPHOTO2:
-            result = getSystemDevices_V4L();
+#ifdef HAVE_MSMF
+//        case CV_CAP_MSMF:
+//             capture = cvCreateCameraCapture_MSMF (index);
+//             if (capture)
+//                 return capture;
             break;
 #endif
-        }
+#ifdef HAVE_TYZX
+//        case CV_CAP_STEREO:
+//            capture = cvCreateCameraCapture_TYZX (index);
+//            if (capture)
+//                return capture;
+            break;
+#endif
+        case CV_CAP_VFW:
+#ifdef HAVE_VFW
+//            capture = cvCreateCameraCapture_VFW (index);
+//            if (capture)
+//                return capture;
+            break;
+#endif
+#if defined HAVE_LIBV4L || defined HAVE_CAMV4L || defined HAVE_CAMV4L2 || defined HAVE_VIDEOIO
+            printf("ok");
+                result = getSystemDevices_V4L();
+//            done = true;
+//            return result;
+                break;
+#endif
+
+#ifdef HAVE_GSTREAMER
+//            capture = cvCreateCapture_GStreamer(CV_CAP_GSTREAMER_V4L2, 0);
+//            if (capture)
+//                return capture;
+//            capture = cvCreateCapture_GStreamer(CV_CAP_GSTREAMER_V4L, 0);
+//            if (capture)
+//                return capture;
+#endif
+            break; //CV_CAP_VFW
+
+        case CV_CAP_FIREWIRE:
+#ifdef HAVE_DC1394_2
+//            capture = cvCreateCameraCapture_DC1394_2 (index);
+//            if (capture)
+//                return capture;
+            break;
+#endif
+
+#ifdef HAVE_DC1394
+            capture = cvCreateCameraCapture_DC1394 (index);
+//            if (capture)
+//                return capture;
+//            break;
+#endif
+
+#ifdef HAVE_CMU1394
+            capture = cvCreateCameraCapture_CMU (index);
+//            if (capture)
+//                return capture;
+//            break;
+#endif
+
+#if defined(HAVE_QUICKTIME) || defined(HAVE_QTKIT)
+        case CV_CAP_QT:
+//            capture = cvCreateCameraCapture_QT (index);
+//            if (capture)
+//                return capture;
+            break;
+#endif
+
+#ifdef HAVE_UNICAP
+        case CV_CAP_UNICAP:
+//            capture = cvCreateCameraCapture_Unicap (index);
+//            if (capture)
+//                return capture;
+        break;
+#endif
+
+#ifdef HAVE_PVAPI
+        case CV_CAP_PVAPI:
+//            capture = cvCreateCameraCapture_PvAPI (index);
+//            if (capture)
+//                return capture;
+        break;
+#endif
+
+#ifdef HAVE_OPENNI
+        case CV_CAP_OPENNI:
+//            capture = cvCreateCameraCapture_OpenNI (index);
+//            if (capture)
+//                return capture;
+        break;
+#endif
+
+#ifdef HAVE_OPENNI2
+        case CV_CAP_OPENNI2:
+//            capture = cvCreateCameraCapture_OpenNI(index);
+//            if (capture)
+//                return capture;
+        printf("hey");
+            break;
+#endif
+
+
     }
+    }
+
+
     return result;
             
 }
