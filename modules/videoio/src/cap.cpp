@@ -748,33 +748,6 @@ double VideoCapture::get(int propId) const
     return icvGetCaptureProperty(cap, propId);
 }
 
-std::vector<int> VideoCapture::getSystemDevicesNumbers()
-{
-    std::vector<int> result;
-        int  domains[] =
-    {
-        CV_CAP_ANY,
-#ifdef HAVE_GPHOTO2
-        CV_CAP_GPHOTO2,
-#endif
-        -1, -1
-    };
-
-    // try every possibly installed camera API
-    for (int i = 0; domains[i] >= 0; i++)
-    {
-        switch (domains[i])
-        {
-#ifdef HAVE_GPHOTO2
-        case CV_CAP_GPHOTO2:
-            result = getSystemDevices_V4L();
-            break;
-#endif
-        }
-    }
-    return result;
-            
-}
 
 VideoWriter::VideoWriter()
 {}
