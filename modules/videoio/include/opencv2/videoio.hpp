@@ -539,6 +539,7 @@ public:
     class, value 0 is returned.
      */
     CV_WRAP virtual double get(int propId) const;
+    CV_WRAP virtual std::vector<int> getSystemDevicesNumbers();
 
 protected:
     Ptr<CvCapture> cap;

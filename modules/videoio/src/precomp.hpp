@@ -101,6 +101,7 @@ struct CvVideoWriter
 };
 
 CvCapture * cvCreateCameraCapture_V4L( int index );
+std::vector<int> getSystemDevices_V4L();
 CvCapture * cvCreateCameraCapture_DC1394( int index );
 CvCapture * cvCreateCameraCapture_DC1394_2( int index );
 CvCapture* cvCreateCameraCapture_MIL( int index );
@@ -171,6 +172,7 @@ namespace cv
         virtual bool retrieveFrame(int, OutputArray) = 0;
         virtual bool isOpened() const = 0;
         virtual int getCaptureDomain() { return CAP_ANY; } // Return the type of the capture object: CAP_VFW, etc...
+        virtual int findDevice(const char *) const{printf("default... not good.");return -1;}
     };
 
     class IVideoWriter
