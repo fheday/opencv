@@ -172,7 +172,6 @@ namespace cv
         virtual bool retrieveFrame(int, OutputArray) = 0;
         virtual bool isOpened() const = 0;
         virtual int getCaptureDomain() { return CAP_ANY; } // Return the type of the capture object: CAP_VFW, etc...
-        virtual int findDevice(const char *) const{printf("default... not good.");return -1;}
     };
 
     class IVideoWriter
