@@ -415,6 +415,27 @@ static void icvInitCapture_V4L() {
 
 }; /* End icvInitCapture_V4L */
 
+static std::vector<int> icvGetSystemDevices() {
+   int deviceHandle;
+   int CameraNumber;
+   char deviceName[MAX_DEVICE_DRIVER_NAME];
+   std::vector<int> result;
+   
+   CameraNumber = 0;
+   while(CameraNumber < MAX_CAMERAS) {
+      /* Print the CameraNumber at the end of the string with a width of one character */
+      sprintf(deviceName, "/dev/video%1d", CameraNumber);
+      /* Test using an open to see if this new device name really does exists. */
+      deviceHandle = open(deviceName, O_RDONLY);
+      if (deviceHandle != -1) {
+          result.push_back(CameraNumber);
+          close(deviceHandle);
+    }
+    /* Set up to test the next /dev/video source in line */
+    CameraNumber++;
+   } /* End while */
+   return result;
+}
 
 static int try_init_v4l(CvCaptureCAM_V4L* capture, char *deviceName)
 
@@ -1907,6 +1928,11 @@ double CvCaptureCAM_V4L_CPP::getProperty( int propId ) const
 bool CvCaptureCAM_V4L_CPP::setProperty( int propId, double value )
 {
     return captureV4L ? icvSetPropertyCAM_V4L( captureV4L, propId, value ) != 0 : false;
+}
+
+std::vector<int> getSystemDevices_V4L()
+{
+    return icvGetSystemDevices();
 }
 
 CvCapture* cvCreateCameraCapture_V4L( int index )
