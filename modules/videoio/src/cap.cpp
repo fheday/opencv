@@ -851,7 +851,6 @@ std::vector<int> VideoCapture::getSystemDevicesNumbers()
             break;
 #endif
 #if defined HAVE_LIBV4L || defined HAVE_CAMV4L || defined HAVE_CAMV4L2 || defined HAVE_VIDEOIO
-            printf("ok");
                 result = getSystemDevices_V4L();
 //            done = true;
 //            return result;
@@ -933,10 +932,10 @@ std::vector<int> VideoCapture::getSystemDevicesNumbers()
 
 
     }
-    }
+}
 
 
-    return result;
+return result;
             
 }
 
